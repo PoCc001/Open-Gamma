@@ -77,6 +77,10 @@ public class OGamma {
 			return Double.NaN;
 		}
 		
+		if (x == 1.0 || x == 2.0) {
+			return 0.0;
+		}
+		
 		if (x > 0.0) {
 			if (x >= 12.0) {
 				return logGammaApprox(x);
