@@ -5,7 +5,7 @@
 * https://www.boost.org/LICENSE_1_0.txt)
 */
 
-public class OGamma {
+public strictfp class OGamma {
 	private static double gammaApprox (double x) {
 		return Math.sqrt(2.0 * Math.PI / x) * Math.pow(1.0 / Math.E * (x + (1.0 / (12.0 * x - 1.0 / (10.0 * x)))), x);
 	}
