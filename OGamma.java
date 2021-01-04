@@ -11,7 +11,7 @@ public strictfp class OGamma {
 	}
 	
 	private static boolean isInteger (double x) {
-		return (double)((long)(x)) == x || x > 1E19;
+		return (double)((long)(x)) == x || x > 1E18;
 	}
 	
 	private static double doubleGamma (double x) {
@@ -57,6 +57,10 @@ public strictfp class OGamma {
 		return (float)(doubleGamma(x));
 	}
 	
+	public static float factorial (int x) {
+		return x >= 0 ? doubleGamma((double)(x + 1)) : Float.NaN;
+	}
+	
 	public static float factorial (float x) {
 		return x >= 0.0f ? gamma(x + 1.0f) : Float.NaN;
 	}
@@ -86,15 +90,15 @@ public strictfp class OGamma {
 				return logGammaApprox(x);
 			} else {
 				int diff = 12 - (int)(x);
-					double y = x + diff;
+				double y = x + diff;
 					
-					double r = doubleLogGamma(y);
+				double r = doubleLogGamma(y);
+				
+				for (int i = 0; i < diff; i++) {
+					r -= Math.log(y - i - 1);
+				}
 					
-					for (int i = 0; i < diff; i++) {
-						r -= Math.log(y - i - 1);
-					}
-					
-					return r;
+				return r;
 			}
 		} else {
 			x = -x;
@@ -113,7 +117,45 @@ public strictfp class OGamma {
 		return (float)(doubleLogGamma(x));
 	}
 	
+	public static float logFactorial (int x) {
+		if (x == 0x7fffffff) {
+			return (float)(doubleLogGamma((double)(0x80000000L)));
+		}
+		
+		return x >= 0 ? doubleLogGamma((double)(x + 1)) : Float.NaN;
+	}
+	
 	public static float logFactorial (float x) {
 		return x >= 0.0f ? logGamma(x + 1.0f) : Float.NaN;
+	}
+	
+	private static double downToIntegerValue (double x) {
+		return x > 1E18 ? x : (long)(x);
+	}
+	
+	private static double doubleSubFactorial (int x) {
+		return downToIntegerValue((doubleGamma((double)(x + 1)) + 1.0) / Math.E)
+	}
+	
+	public static float subFactorial (int x) {
+		if (x < 0) {
+			return Float.NaN;
+		}
+		
+		return x < 35 ? (float)(doubleSubFactorial(x)) : Float.POSITIVE_INFINITY;
+	}
+	
+	public static float logSubFactorial (int x) {
+		if (x < 0) {
+			return Float.NaN;
+		} else if (x == 0x7fffffff) {
+			return (float)(doubleLogGamma((double)(0x80000000L)));
+		}
+		
+		if (x < 35) {
+			return (float)(Math.log(doubleSubFactorial(x)));
+		} else {
+			return (float)(doubleLogGamma((double)(x + 1)) - 1.0);
+		}
 	}
 }
