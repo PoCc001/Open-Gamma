@@ -6,6 +6,11 @@
 */
 
 public class OGamma {
+	// Three useful private constants that shouldn't have to be recalculated every time.
+	private static final double TWOPI = Math.PI + Math.PI;
+	private static final double LOGTWOPI = Math.log(TWOPI);
+	private static final double RECE = 1.0 / Math.E;
+	
 	/*
 	* Approximates the gamma function for the input variable x.
 	* The greater the argument is the more precision the result is going to have.
@@ -13,7 +18,7 @@ public class OGamma {
 	* for more details on this algorithm.
 	*/
 	private static double gammaApprox (double x) {
-		return Math.sqrt(2.0 * Math.PI / x) * Math.pow(1.0 / Math.E * (x + (1.0 / (12.0 * x - 0.1 / x))), x);
+		return Math.sqrt(TWOPI / x) * Math.pow(RECE * (x + (1.0 / (12.0 * x - 0.1 / x))), x);
 	}
 	
 	/*
@@ -118,7 +123,7 @@ public class OGamma {
 	* for more details on this algorithm.
 	*/
 	private static double logGammaApprox (double x) {
-		return 0.5 * (Math.log(2.0 * Math.PI) - Math.log(x)) + x * (Math.log(x + 1.0 / (12.0 * x - 0.1 / x)) - 1.0);
+		return 0.5 * (LOGTWOPI - Math.log(x)) + x * (Math.log(x + 1.0 / (12.0 * x - 0.1 / x)) - 1.0);
 	}
 	
 	/*
@@ -206,7 +211,7 @@ public class OGamma {
 	* Calculates the subfactorial function !x as a double-precision floating-point number
 	*/
 	private static double doubleSubFactorial (int x) {
-		return downToIntegerValue((doubleGamma((double)(x + 1)) + 1.0) / Math.E);
+		return downToIntegerValue((doubleGamma((double)(x + 1)) + 1.0) * RECE);
 	}
 	
 	/*
