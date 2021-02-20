@@ -12,6 +12,11 @@ public class OGamma {
 	private static final double RECE = 1.0 / Math.E;
 	
 	/*
+	* If the input is larger than or equal to this number, a faster algorithm for the logGamma function is used
+	*/
+	private static final double STIRLING_THRESHOLD = Double.longBitsToDouble(0x41a0000000000000L); // 2^27
+	
+	/*
 	* Approximates the gamma function for the input variable x.
 	* The greater the argument is the more precision the result is going to have.
 	* See https://en.wikipedia.org/wiki/Stirling%27s_approximation#Versions_suitable_for_calculators
@@ -127,6 +132,15 @@ public class OGamma {
 	}
 	
 	/*
+	* Approximates the natural logarithm of the gamma function for the input variable x.
+	* As this is a shortened version of the algorithm used in logGammaApprox, it can only be used
+	* for numbers that are quite large. However, it should be noticably faster.
+	*/
+	private static double logGammaStirling (double x) {
+		return x * (Math.log(x) - 1.0);
+	}
+	
+	/*
 	* Calculates the natural logarithm of the gamma function of x and returns a double-precision floating-point number.
 	* Uses the same kind of algorithm as the doubleGamma function.
 	*/
@@ -141,7 +155,7 @@ public class OGamma {
 		
 		if (x > 0.0) {
 			if (x >= 12.0) {
-				return logGammaApprox(x);
+				return x >= STIRLING_THRESHOLD ? logGammaStirling(x) : logGammaApprox(x);
 			} else {
 				int diff = 12 - (int)(x);
 				double y = x + diff;
