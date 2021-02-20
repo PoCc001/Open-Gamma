@@ -39,13 +39,11 @@ public class OGamma {
 	private static double doubleGamma (double x) {
 		if (x != x) { // sort out NaN values immediately
 			return Double.NaN;
-		} else if (x >= 35.0) { // float cannot handle gamma(x) for x >= 35
-			return Double.POSITIVE_INFINITY;
 		}
 		
 		if (x > 0.0) {
 			if (isInteger(x)) { // return precalculated values for gamma from an array, when the input is known to be an integer
-				return intFactArray[(int)(x) - 1];
+				return x < 36.0 ? intFactArray[(int)(x) - 1] : Double.POSITIVE_INFINITY;
 			} else {
 				if (x >= 12.0) { // if x >= 12, the gammaApprox function will return a result that has at least 8 correct decimal places
 					return gammaApprox(x);
