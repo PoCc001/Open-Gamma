@@ -7,13 +7,13 @@ Use the gamma function in the OGamma class to calculate gamma(x) for x is any re
 In order to be able to evaluate the gamma/factorial function of much larger numbers use the logGamma and logFactorial functions. Note, that they currently only take positive inputs.
 
 ## FastGamma
-Open-Source implementation of the Gamma and LogGamma function in Java (double and float datatype).
+Open-Source implementation of the Gamma and LogGamma function in Java (double and float datatype). Note, that they only return a rough approximation of the actual value! (2-3 digits maximum) For small values, the result may even be completely wrong!
 
 These implementation don't do any argument checks and are only useful for relatively large positive input values.
 Therefore, they're quite fast, but at the same time much more inprecise.
 
-##fastgamma
-Open-Source implementation of the Gamma and LogGamma function in C/C++ (double and float datatype).
+## fastgamma
+Open-Source implementation of the Gamma and LogGamma function in C/C++ (double and float datatype). Note, that they only return a rough approximation of the actual value! (2-3 digits maximum) For small values, the result may even be completely wrong!
 
 To use this part of the library, just include the fastgamma.h file in your C/C++ project.
 
