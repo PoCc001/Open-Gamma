@@ -79,7 +79,7 @@ float fast_gammaf(float x) {
 double fast_loggamma(double x) {
 	union double_to_ui64 ux;
 	ux.d = x;
-	ux.ui -= 0x3ff0000000000000ULL;
+	ux.ui -= (uint64_t)(0x3ff0000000000000ULL);
 	ux.ui >>= 52;
 	double log = (double)(ux.ui);
 	log *= LOG_2_D; // a rough estimate of the natural log of x
@@ -96,7 +96,7 @@ double fast_loggamma(double x) {
 float fast_loggammaf(float x) {
 	union float_to_ui32 ux;
 	ux.f = x;
-	ux.ui = 0x3f800000UL;
+	ux.ui = (uint32_t)(0x3f800000UL);
 	ux.ui >>= 23;
 	float log = (float)(ux.ui);
 	log *= LOG_2_F; // a rough estimate of the natural log of x
