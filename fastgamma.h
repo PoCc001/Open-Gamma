@@ -35,15 +35,15 @@
  * quick, rough estimate of the natural log
  * can be calculated.
  */
-union double_to_ui64 {
+union double_to_i64 {
 	double d;
-	uint64_t ui;
-} double_ui64;
+	int64_t i;
+} double_i64;
 
-union float_to_ui32 {
+union float_to_i32 {
 	float f;
-	uint32_t ui;
-} float_u32;
+	int32_t i;
+} float_i32;
 
 /*
  * Approximates the gamma function for the double-precision
@@ -77,11 +77,11 @@ float fast_gammaf(float x) {
  * checks! This is done on purpose.
  */
 double fast_loggamma(double x) {
-	union double_to_ui64 ux;
+	union double_to_i64 ux;
 	ux.d = x;
-	ux.ui -= (uint64_t)(0x3ff0000000000000ULL);
-	ux.ui >>= 52;
-	double log = (double)(ux.ui);
+	ux.i -= (int64_t)(0x3ff0000000000000LL);
+	ux.i >>= 52;
+	double log = (double)(ux.i);
 	log *= LOG_2_D; // a rough estimate of the natural log of x
 	return x * (log - 1.0);
 }
@@ -94,11 +94,11 @@ double fast_loggamma(double x) {
  * checks! This is done on purpose.
  */
 float fast_loggammaf(float x) {
-	union float_to_ui32 ux;
+	union float_to_i32 ux;
 	ux.f = x;
-	ux.ui = (uint32_t)(0x3f800000UL);
-	ux.ui >>= 23;
-	float log = (float)(ux.ui);
+	ux.i = (int32_t)(0x3f800000L);
+	ux.i >>= 23;
+	float log = (float)(ux.i);
 	log *= LOG_2_F; // a rough estimate of the natural log of x
 	return x * (log - 1.0f);
 }
