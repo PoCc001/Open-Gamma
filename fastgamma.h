@@ -29,6 +29,14 @@
 #define RECIP_E_D 0.367879
 #define RECIP_E_F (float)(RECIP_E_D)
 
+#define DO_INLINE 1 // change to 0 to prevent inlining the following functions
+
+#if DO_INLINE != 0
+#define FUNC_INLINE inline
+#else
+#define FUNC_INLINE
+#endif
+
 /*
  * Two unions to enable bit manipulation
  * on floating-point arguments, so that a
@@ -51,7 +59,7 @@ union float_to_i32 {
  * precision the result is going to have. The function DOES
  * NOT perform any argument checks! This is done on purpose.
  */
-inline double fast_gamma(double x) {
+FUNC_INLINE double fast_gamma(double x) {
 	x -= 1.0;
 	// standard Stirling formula
 	return sqrt(TWO_PI_D * x) * pow(x * RECIP_E_D, x);
@@ -63,7 +71,7 @@ inline double fast_gamma(double x) {
  * precision the result is going to have. The function DOES
  * NOT perform any argument checks! This is done on purpose.
  */
-inline float fast_gammaf(float x) {
+FUNC_INLINE float fast_gammaf(float x) {
 	x -= 1.0f;
 	// standard Stirling formula
 	return sqrtf(TWO_PI_F * x) * powf(x * RECIP_E_F, x);
@@ -76,7 +84,7 @@ inline float fast_gammaf(float x) {
  * to have. The function DOES NOT perform any argument
  * checks! This is done on purpose.
  */
-inline double fast_loggamma(double x) {
+FUNC_INLINE double fast_loggamma(double x) {
 	union double_to_i64 ux;
 	ux.d = x;
 	ux.i -= (int64_t)(0x3ff0000000000000LL);
@@ -93,7 +101,7 @@ inline double fast_loggamma(double x) {
  * to have. The function DOES NOT perform any argument
  * checks! This is done on purpose.
  */
-inline float fast_loggammaf(float x) {
+FUNC_INLINE float fast_loggammaf(float x) {
 	union float_to_i32 ux;
 	ux.f = x;
 	ux.i = (int32_t)(0x3f800000L);
