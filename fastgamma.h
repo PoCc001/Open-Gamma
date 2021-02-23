@@ -51,7 +51,7 @@ union float_to_i32 {
  * precision the result is going to have. The function DOES
  * NOT perform any argument checks! This is done on purpose.
  */
-double fast_gamma(double x) {
+inline double fast_gamma(double x) {
 	x -= 1.0;
 	// standard Stirling formula
 	return sqrt(TWO_PI_D * x) * pow(x * RECIP_E_D, x);
@@ -63,7 +63,7 @@ double fast_gamma(double x) {
  * precision the result is going to have. The function DOES
  * NOT perform any argument checks! This is done on purpose.
  */
-float fast_gammaf(float x) {
+inline float fast_gammaf(float x) {
 	x -= 1.0f;
 	// standard Stirling formula
 	return sqrtf(TWO_PI_F * x) * powf(x * RECIP_E_F, x);
@@ -76,7 +76,7 @@ float fast_gammaf(float x) {
  * to have. The function DOES NOT perform any argument
  * checks! This is done on purpose.
  */
-double fast_loggamma(double x) {
+inline double fast_loggamma(double x) {
 	union double_to_i64 ux;
 	ux.d = x;
 	ux.i -= (int64_t)(0x3ff0000000000000LL);
@@ -93,7 +93,7 @@ double fast_loggamma(double x) {
  * to have. The function DOES NOT perform any argument
  * checks! This is done on purpose.
  */
-float fast_loggammaf(float x) {
+inline float fast_loggammaf(float x) {
 	union float_to_i32 ux;
 	ux.f = x;
 	ux.i = (int32_t)(0x3f800000L);
