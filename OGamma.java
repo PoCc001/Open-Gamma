@@ -58,8 +58,8 @@ public class OGamma {
 					
 					double r = gammaApprox(y);
 					
-					for (int i = 0; i < diff; i++) {
-						r /= (y - i - 1);
+					for (int i = 1; i <= diff; i++) {
+						r /= (y - i);
 					}
 					
 					return r;
@@ -160,8 +160,8 @@ public class OGamma {
 					
 				double r = logGammaApprox(y);
 				
-				for (int i = 0; i < diff; i++) {
-					r -= Math.log(y - i - 1);
+				for (int i = 1; i <= diff; i++) {
+					r -= Math.log(y - i);
 				}
 					
 				return r;
