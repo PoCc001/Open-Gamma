@@ -90,7 +90,7 @@ FUNC_INLINE double fast_loggamma(double x) {
 	ux.i &= (int64_t)(0x3fffffffffffffffLL);
 	ux.i >>= 52;
 	double log = (double)(ux.i);
-	log *= LOG_2_D; // a rough estimate of the natural log of x
+	log *= LOG_2_D; // a rough estimate of the natural log of x - 1
 	return x * log;
 }
 
@@ -107,7 +107,7 @@ FUNC_INLINE float fast_loggammaf(float x) {
 	ux.i &= (int32_t)(0x3fffffffL);
 	ux.i >>= 23;
 	float log = (float)(ux.i);
-	log *= LOG_2_F; // a rough estimate of the natural log of x
+	log *= LOG_2_F; // a rough estimate of the natural log of x - 1
 	return x * log;
 }
 
