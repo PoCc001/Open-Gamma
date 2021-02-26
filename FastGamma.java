@@ -47,7 +47,7 @@ public class FastGamma {
 		bits >>= 52;
 		double log = bits;
 		log *= LOG_2D; // a rough estimate of the natural log of x
-		return x * (log - 1.0);
+		return x * log;
 	}
 	
 	/*
@@ -61,6 +61,6 @@ public class FastGamma {
 		bits >>= 23;
 		float log = bits;
 		log *= LOG_2F; // a rough estimate of the natural log of x
-		return x * (log - 1.0f);
+		return x * log;
 	}
 }
