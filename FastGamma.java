@@ -43,7 +43,7 @@ public class FastGamma {
 	*/
 	public static double logGamma (double x) {
 		long bits = Double.doubleToRawLongBits(x);
-		bits -= 0x3ff0000000000000L;
+		bits &= 0x3fffffffffffffffL;
 		bits >>= 52;
 		double log = bits;
 		log *= LOG_2D; // a rough estimate of the natural log of x
@@ -57,7 +57,7 @@ public class FastGamma {
 	*/
 	public static float logGamma (float x) {
 		int bits = Float.floatToRawIntBits(x);
-		bits -= 0x3f800000;
+		bits &= 0x3fffffff;
 		bits >>= 23;
 		float log = bits;
 		log *= LOG_2F; // a rough estimate of the natural log of x
