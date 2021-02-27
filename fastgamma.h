@@ -45,12 +45,12 @@
  */
 union double_to_i64 {
 	double d;
-	int64_t i;
+	uint64_t i;
 } double_i64;
 
 union float_to_i32 {
 	float f;
-	int32_t i;
+	uint32_t i;
 } float_i32;
 
 /*
@@ -87,7 +87,7 @@ FUNC_INLINE float fast_gammaf(float x) {
 FUNC_INLINE double fast_loggamma(double x) {
 	union double_to_i64 ux;
 	ux.d = x;
-	ux.i &= (int64_t)(0x3fffffffffffffffLL);
+	ux.i &= (uint64_t)(0x3fffffffffffffffULL);
 	ux.i >>= 52;
 	double log = (double)(ux.i);
 	log *= LOG_2_D; // a rough estimate of the natural log of x - 1
@@ -104,7 +104,7 @@ FUNC_INLINE double fast_loggamma(double x) {
 FUNC_INLINE float fast_loggammaf(float x) {
 	union float_to_i32 ux;
 	ux.f = x;
-	ux.i &= (int32_t)(0x3fffffffL);
+	ux.i &= (uint32_t)(0x3fffffffUL);
 	ux.i >>= 23;
 	float log = (float)(ux.i);
 	log *= LOG_2_F; // a rough estimate of the natural log of x - 1
