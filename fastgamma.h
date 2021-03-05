@@ -161,7 +161,7 @@ FUNC_INLINE double fast_loggamma(double x) {
 	ux.i >>= 52;
 	double log = (double)(ux.i);
 #if USE_APPROX_ARRAYS != 0
-	log += LD_ARRAYS[array_index];
+	log += LD_ARRAYS_D[array_index];
 #endif
 	log *= LOG_2_D; // a rough estimate of the natural log of x
 #if USE_APPROX_ARRAYS == 0
@@ -190,7 +190,7 @@ FUNC_INLINE float fast_loggammaf(float x) {
 	ux.i >>= 23;
 	float log = (float)(ux.i);
 #if USE_APPROX_ARRAYS != 0
-	log += (float)(LD_ARRAY[array_index]);
+	log += LD_ARRAY_F[array_index]);
 #endif
 	log *= LOG_2_F; // a rough estimate of the natural log of x
 #if USE_APPROX_ARRAYS == 0
