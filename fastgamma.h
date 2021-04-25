@@ -39,8 +39,10 @@
 
 #define USE_APPROX_ARRAYS 1 // change to 0 to make fast_loggamma even faster but more incorrect
 
-// arrays to correct the approximation of the logarithm in fast_loggamma
-#if USE_APPROX_ARRAYS != 0
+/* 
+ * arrays to correct the approximation of the logarithm in fast_loggamma and create
+ * a reasonable result in fast_gamma as it approximates the generic power function
+ */
 double LD_ARRAY_D [128] = {
 0.000000, 0.011227, 0.022368, 0.033423, 0.044394,
 0.055282, 0.066089, 0.076816, 0.087463, 0.098032,
@@ -99,8 +101,6 @@ float LD_ARRAY_F [128] = {
 0.954196f, 0.960002f, 0.965784f, 0.971544f, 0.977280f,
 0.982994f, 0.988685f, 0.994353f
 };
-
-#endif
 
 /*
  * Two unions to enable bit manipulation
