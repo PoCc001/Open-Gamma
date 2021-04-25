@@ -13,7 +13,8 @@ These implementation don't do any argument checks and are only useful for relati
 Therefore, they're quite fast, but at the same time much more inprecise.
 
 ## fastgamma
-Open-Source implementation of the Gamma and LogGamma function in C/C++ (double and float datatype). Note, that they only return a rough approximation of the actual value! (2-3 digits maximum) For small values, the result may even be completely wrong!
+Open-Source implementation of the Gamma and LogGamma function in C/C++ (double and float datatype). Note, that they only return a rough approximation of the actual value (2-3 digits maximum)! For small values, the result may even be completely wrong! You can however get more correct digits by assigning the value 1 to the macro
+USE_APPROX_ARRAYS (5-6 digits max).
 
 To use this part of the library, just include the fastgamma.h file in your C/C++ project.
 
