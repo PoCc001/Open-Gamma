@@ -29,7 +29,7 @@
 #define RECIP_E_D 0.3678794
 #define RECIP_E_F (float)(RECIP_E_D)
 
-#define DO_INLINE 0
+#define DO_INLINE 1
 
 #if DO_INLINE != 0
 #define FUNC_INLINE inline
@@ -37,7 +37,7 @@
 #define FUNC_INLINE
 #endif
 
-#define USE_APPROX_ARRAY 1
+#define USE_APPROX_ARRAYS 1
 
 float LD_ARRAY[256] = {
 0.0000000f, 0.0056245f, 0.0112273f, 0.0168083f, 0.0223678f, 
@@ -232,7 +232,7 @@ FUNC_INLINE float fast_gammaf(float x) {
 FUNC_INLINE double fast_loggamma(double x) {
 	union double_to_i64 ux;
 	ux.d = x;
-#if USE_APPROX_ARRAY == 0
+#if USE_APPROX_ARRAYS == 0
 	ux.i &= 0x3fffffffffffffffULL;
 #else
 	ux.i -= 0x3ff0000000000000ULL;
@@ -240,11 +240,11 @@ FUNC_INLINE double fast_loggamma(double x) {
 #endif
 	ux.i >>= 52;
 	double log = (double)(ux.i);
-#if USE_APPROX_ARRAY != 0
+#if USE_APPROX_ARRAYS != 0
 	log += (double)(LD_ARRAY[array_index]);
 #endif
 	log *= LOG_2_D; // a rough estimate of the natural log of x
-#if USE_APPROX_ARRAY == 0
+#if USE_APPROX_ARRAYS == 0
 	return x * log;
 #else
 	return x * (log - 1.0);
@@ -261,7 +261,7 @@ FUNC_INLINE double fast_loggamma(double x) {
 FUNC_INLINE float fast_loggammaf(float x) {
 	union float_to_i32 ux;
 	ux.f = x;
-#if USE_APPROX_ARRAY == 0
+#if USE_APPROX_ARRAYS == 0
 	ux.i &= 0x3fffffffUL;
 #else
 	ux.i -= 0x3f800000UL;
@@ -269,11 +269,11 @@ FUNC_INLINE float fast_loggammaf(float x) {
 #endif
 	ux.i >>= 23;
 	float log = (float)(ux.i);
-#if USE_APPROX_ARRAY != 0
+#if USE_APPROX_ARRAYS != 0
 	log += LD_ARRAY[array_index];
 #endif
 	log *= LOG_2_F; // a rough estimate of the natural log of x
-#if USE_APPROX_ARRAY == 0
+#if USE_APPROX_ARRAYS == 0
 	return x * log;
 #else
 	return x * (log - 1.0f);
