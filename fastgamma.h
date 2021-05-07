@@ -215,7 +215,7 @@ FUNC_INLINE float fast_gammaf(float x) {
 	exp += 127;
 	ux.i = exp;
 	ux.i <<= 23;
-	r *= 256f;
+	r *= 256.0f;
 	array_index = (unsigned int)(r);
 	return sqrtf(TWO_PI_F * x) * ux.f * P2_ARRAY[array_index];
 }
