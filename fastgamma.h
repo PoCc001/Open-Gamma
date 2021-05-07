@@ -199,8 +199,6 @@ FUNC_INLINE double fast_gamma(double x) {
  * precision the result is going to have. The function DOES
  * NOT perform any argument checks! This is done on purpose.
  */
-
-//implement the faster version
 FUNC_INLINE float fast_gammaf(float x) {
 	x -= 1.0f;
 	// standard Stirling formula
@@ -217,7 +215,7 @@ FUNC_INLINE float fast_gammaf(float x) {
 	exp += 127;
 	ux.i = exp;
 	ux.i <<= 23;
-	r *= 256;
+	r *= 256f;
 	array_index = (unsigned int)(r);
 	return sqrtf(TWO_PI_F * x) * ux.f * P2_ARRAY[array_index];
 }
