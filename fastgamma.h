@@ -13,6 +13,7 @@
 
 // FOR THE LOGGAMMA FUNCTIONS TO WORK, DOUBLE AND FLOAT ARE
 // EXPECTED TO BE 64 BITS AND 32 BITS WIDE RESPECTIVELY!
+// That should be the case on most platforms anyways!
 
 /* 
  * useful constants
@@ -29,6 +30,7 @@
 #define RECIP_E_D 0.3678794
 #define RECIP_E_F (float)(RECIP_E_D)
 
+// Change to 0 if you don't want to use this feature!
 #define DO_INLINE 1
 
 #if DO_INLINE != 0
@@ -37,9 +39,10 @@
 #define FUNC_INLINE
 #endif
 
+// Change to 0 if you don't want to use this feature!
 #define USE_APPROX_ARRAYS 1
 
-float LD_ARRAY[256] = {
+static float LD_ARRAY[256] = {
 0.0000000f, 0.0056245f, 0.0112273f, 0.0168083f, 0.0223678f, 
 0.0279060f, 0.0334230f, 0.0389190f, 0.0443941f, 0.0498485f, 
 0.0552824f, 0.0606959f, 0.0660892f, 0.0714624f, 0.0768156f, 
@@ -94,7 +97,7 @@ float LD_ARRAY[256] = {
 0.9971795f
 };
 
-float P2_ARRAY[256] = {
+static float P2_ARRAY[256] = {
 1.0000000f, 1.0027113f, 1.0054299f, 1.0081559f, 1.0108893f,
 1.0136301f, 1.0163783f, 1.0191340f, 1.0218971f, 1.0246678f,
 1.0274459f, 1.0302316f, 1.0330249f, 1.0358257f, 1.0386341f,
@@ -170,7 +173,7 @@ union float_to_i32 {
  * Approximates the gamma function for the double-precision
  * input variable x. The greater the argument is the more
  * precision the result is going to have. The function DOES
- * NOT perform any argument checks! This is done on purpose.
+ * NOT perform any argument checks! This is done intentionally.
  */
 FUNC_INLINE double fast_gamma(double x) {
 	x -= 1.0;
@@ -184,12 +187,13 @@ FUNC_INLINE double fast_gamma(double x) {
 	log += (double)(LD_ARRAY[array_index]);
 	ux.d = log * x;
 	int exp = (int)(ux.d);
-	double r = ux.d - (double)(exp);
+	union double_to_i64 r;
+	r.d = ux.d - (double)(exp);
 	exp += 1023;
 	ux.i = exp;
 	ux.i <<= 52;
-	r *= 256;
-	array_index = (unsigned int)(r);
+	r.i += 0x80000000000000ULL;
+	array_index = (unsigned int)(r.d);
 	return sqrt(TWO_PI_D * x) * ux.d * (double)(P2_ARRAY[array_index]);
 }
 
@@ -197,7 +201,7 @@ FUNC_INLINE double fast_gamma(double x) {
  * Approximates the gamma function for the single-precision
  * input variable x. The greater the argument is the more
  * precision the result is going to have. The function DOES
- * NOT perform any argument checks! This is done on purpose.
+ * NOT perform any argument checks! This is done intentionally.
  */
 FUNC_INLINE float fast_gammaf(float x) {
 	x -= 1.0f;
@@ -211,12 +215,13 @@ FUNC_INLINE float fast_gammaf(float x) {
 	log += LD_ARRAY[array_index];
 	ux.f = log * x;
 	int exp = (int)(ux.f);
-	float r = ux.f - (float)(exp);
+	union float_to_i32 r;
+	r.f = ux.f - (float)(exp);
 	exp += 127;
 	ux.i = exp;
 	ux.i <<= 23;
-	r *= 256.0f;
-	array_index = (unsigned int)(r);
+	r.i += 0x4000000UL;
+	array_index = (unsigned int)(r.f);
 	return sqrtf(TWO_PI_F * x) * ux.f * P2_ARRAY[array_index];
 }
 
@@ -225,7 +230,7 @@ FUNC_INLINE float fast_gammaf(float x) {
  * for the double-precision input variable x. The greater
  * the argument is the more precision the result is going
  * to have. The function DOES NOT perform any argument
- * checks! This is done on purpose.
+ * checks! This is done intentionally.
  */
 FUNC_INLINE double fast_loggamma(double x) {
 	union double_to_i64 ux;
@@ -254,7 +259,7 @@ FUNC_INLINE double fast_loggamma(double x) {
  * for the single-precision input variable x. The greater
  * the argument is the more precision the result is going
  * to have. The function DOES NOT perform any argument
- * checks! This is done on purpose.
+ * checks! This is done intentionally.
  */
 FUNC_INLINE float fast_loggammaf(float x) {
 	union float_to_i32 ux;
