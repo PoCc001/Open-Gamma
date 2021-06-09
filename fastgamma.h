@@ -9,7 +9,7 @@
 #define FASTGAMMA_H
 
 #include<math.h>
-#include<inttypes.h>
+#include<stdint.h>
 
 // FOR THE LOGGAMMA FUNCTIONS TO WORK, DOUBLE AND FLOAT ARE
 // EXPECTED TO BE 64 BITS AND 32 BITS WIDE RESPECTIVELY!
@@ -161,12 +161,12 @@ static float P2_ARRAY[256] = {
  */
 union double_to_i64 {
 	double d;
-	uint64_t i;
+	uint_fast64_t i;
 } double_i64;
 
 union float_to_i32 {
 	float f;
-	uint32_t i;
+	uint_fast32_t i;
 } float_i32;
 
 /*
