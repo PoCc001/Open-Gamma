@@ -159,12 +159,12 @@ const float P2_ARRAY[256] = {
  * quick, rough estimate of the natural log
  * can be calculated.
  */
-union double_to_i64 {
+typedef union double_to_i64 {
 	double d;
 	uint_fast64_t i;
 } double_i64;
 
-union float_to_i32 {
+typedef union float_to_i32 {
 	float f;
 	uint_fast32_t i;
 } float_i32;
@@ -178,7 +178,7 @@ union float_to_i32 {
 FUNC_INLINE double fast_gamma(double x) {
 	x -= 1.0;
 	// standard Stirling formula
-	union double_to_i64 ux;
+	double_to_i64 ux;
 	ux.d = x * RECIP_E_D;
 	ux.i -= 0x3ff0000000000000ULL;
 	unsigned int array_index = (unsigned int)(ux.i >> 44) & 0b11111111;
@@ -187,7 +187,7 @@ FUNC_INLINE double fast_gamma(double x) {
 	log += (double)(LD_ARRAY[array_index]);
 	ux.d = log * x;
 	int exp = (int)(ux.d);
-	union double_to_i64 r;
+	double_to_i64 r;
 	r.d = ux.d - (double)(exp);
 	exp += 1023;
 	ux.i = exp;
@@ -206,7 +206,7 @@ FUNC_INLINE double fast_gamma(double x) {
 FUNC_INLINE float fast_gammaf(float x) {
 	x -= 1.0f;
 	// standard Stirling formula
-	union float_to_i32 ux;
+	float_to_i32 ux;
 	ux.f = x * RECIP_E_F;
 	ux.i -= 0x3f800000UL;
 	unsigned int array_index = (unsigned int)(ux.i >> 15) & 0b11111111;
@@ -215,7 +215,7 @@ FUNC_INLINE float fast_gammaf(float x) {
 	log += LD_ARRAY[array_index];
 	ux.f = log * x;
 	int exp = (int)(ux.f);
-	union float_to_i32 r;
+	float_to_i32 r;
 	r.f = ux.f - (float)(exp);
 	exp += 127;
 	ux.i = exp;
@@ -233,7 +233,7 @@ FUNC_INLINE float fast_gammaf(float x) {
  * checks! This is done intentionally.
  */
 FUNC_INLINE double fast_loggamma(double x) {
-	union double_to_i64 ux;
+	double_to_i64 ux;
 	ux.d = x;
 #if USE_APPROX_ARRAYS == 0
 	ux.i &= 0x3fffffffffffffffULL;
@@ -262,7 +262,7 @@ FUNC_INLINE double fast_loggamma(double x) {
  * checks! This is done intentionally.
  */
 FUNC_INLINE float fast_loggammaf(float x) {
-	union float_to_i32 ux;
+	float_to_i32 ux;
 	ux.f = x;
 #if USE_APPROX_ARRAYS == 0
 	ux.i &= 0x3fffffffUL;
