@@ -21,4 +21,4 @@ To use this part of the library, just include the fastgamma.h file in your C/C++
 These implementation don't do any argument checks and are only useful for relatively large positive input values.
 Therefore, they're quite fast, but at the same time much more inprecise.
 
-If, for any reason, you don't want the funcions to be inlined, change the DO_INLINE macro to 0.
+If, for any reason, you don't want the functions to be inlined, change the DO_INLINE macro to 0.
